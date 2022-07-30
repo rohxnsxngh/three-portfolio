@@ -9,22 +9,14 @@ import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonCont
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { createCurve } from "./components/curve";
 
+
 let container, stats;
 let camera, scene, renderer, clock;
 let controls, water, sun;
+let home;
 
 function init() {
   container = document.getElementById("container");
-
-  // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  container.appendChild(renderer.domElement);
-
-  //clock
-  clock = new THREE.Clock();
 
   // Scene & Camera
   scene = new THREE.Scene();
@@ -34,12 +26,26 @@ function init() {
     1,
     20000
   );
-  camera.position.set(30, 30, 100);
+  camera.position.set(-4000, 30, 4000);
+
+  // Renderer
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  container.appendChild(renderer.domElement);
+
+  //Ambient Lighting
+  const light = new THREE.AmbientLight(0x404040); 
+  scene.add(light);
+
+  //clock
+  clock = new THREE.Clock();
 
   sun = new THREE.Vector3();
 
   // Water
-  const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+  const waterGeometry = new THREE.PlaneGeometry(20000, 20000);
 
   water = new Water(waterGeometry, {
     textureWidth: 512,
@@ -63,13 +69,13 @@ function init() {
 
   //SkyBox
   const sky = new Sky();
-  sky.scale.setScalar(10000);
+  sky.scale.setScalar(20000);
   scene.add(sky);
 
   const skyUniforms = sky.material.uniforms;
 
   skyUniforms["turbidity"].value = 15;
-  skyUniforms["rayleigh"].value = 10;
+  skyUniforms["rayleigh"].value = 10; // twilight mode is 0, sunset mode is 10
   skyUniforms["mieCoefficient"].value = 0.007;
   skyUniforms["mieDirectionalG"].value = 0.8;
 
@@ -100,6 +106,7 @@ function init() {
 
   //curve
   createCurve(scene);
+  homePage()
 
   //Controls - for development
   controls = new OrbitControls(camera, renderer.domElement);
@@ -111,13 +118,13 @@ function init() {
   //First Person Controls
   // controls = new FirstPersonControls(camera, renderer.domElement);
   // controls.movementSpeed = 100;
-  // controls.lookSpeed = 0.008;
+  // controls.lookSpeed = 0.025;
   // controls.heightMin = 10;
   // controls.heightCoef = 10;
   // controls.constrainVertical = true;
   // controls.mouseDragOn = false;
   // //controls mouse look around
-  // controls.activeLook = false;
+  // controls.activeLook = true;
   // controls.lookVertical = false;
 
   //Stats
@@ -125,6 +132,25 @@ function init() {
   container.appendChild(stats.dom);
 
   window.addEventListener("resize", onWindowResize);
+}
+
+function homePage() {
+  const fontLoaderHome = new FontLoader();
+  fontLoaderHome.load(
+    "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
+    (droidFont) => {
+      const textGeometryHome = new TextGeometry("WELCOME", {
+        height: 2,
+        size: 8,
+        font: droidFont,
+      });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      home = new THREE.Mesh(textGeometryHome, textMaterialHome);
+      home.position.set(-3900, 0, 3900);
+      home.rotateOnAxis(new THREE.Vector3(0, 1, 0), (7 * Math.PI) / 4);
+      scene.add(home);
+    }
+  );
 }
 
 //Fit to Window
@@ -139,13 +165,13 @@ function animate() {
   requestAnimationFrame(animate);
   render();
   stats.update();
-  // controls.update();
 }
 
 //Render
 function render() {
-  const time = performance.now() * 0.001;
+  const time = performance.now() * 0.0025;
   water.material.uniforms["time"].value += 1.0 / 60.0;
+  home.position.y = Math.sin( time );
   controls.update(clock.getDelta());
   renderer.render(scene, camera);
 }
