@@ -3,17 +3,16 @@ import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Water } from "three/examples/jsm/objects/Water.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { createCurve } from "./components/curve";
-
+import { homePage } from "./components/homePage";
+import { aboutPage } from "./components/aboutPage";
+import { expPage } from "./components/experiencePage";
+import { contactPage } from "./components/contactPage";
 
 let container, stats;
 let camera, scene, renderer, clock;
 let controls, water, sun;
-let home;
+let textMeshHome;
 
 function init() {
   container = document.getElementById("container");
@@ -36,7 +35,7 @@ function init() {
   container.appendChild(renderer.domElement);
 
   //Ambient Lighting
-  const light = new THREE.AmbientLight(0x404040); 
+  const light = new THREE.AmbientLight(0x404040);
   scene.add(light);
 
   //clock
@@ -81,7 +80,7 @@ function init() {
 
   const parameters = {
     elevation: 0,
-    azimuth: 180,
+    azimuth: 135,
     //135 degrees to match curve
   };
 
@@ -106,51 +105,20 @@ function init() {
 
   //curve
   createCurve(scene);
-  homePage()
+  homePage(scene);
+  aboutPage(scene);
+  expPage(scene);
+  contactPage(scene);
 
   //Controls - for development
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.495;
+  controls.maxPolarAngle = Math.PI * 0.725;
   controls.target.set(0, 10, 0);
-  // controls.minDistance = 40.0;
-  // controls.maxDistance = 200.0;
-
-  //First Person Controls
-  // controls = new FirstPersonControls(camera, renderer.domElement);
-  // controls.movementSpeed = 100;
-  // controls.lookSpeed = 0.025;
-  // controls.heightMin = 10;
-  // controls.heightCoef = 10;
-  // controls.constrainVertical = true;
-  // controls.mouseDragOn = false;
-  // //controls mouse look around
-  // controls.activeLook = true;
-  // controls.lookVertical = false;
 
   //Stats
   stats = new Stats();
   container.appendChild(stats.dom);
-
   window.addEventListener("resize", onWindowResize);
-}
-
-function homePage() {
-  const fontLoaderHome = new FontLoader();
-  fontLoaderHome.load(
-    "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
-    (droidFont) => {
-      const textGeometryHome = new TextGeometry("WELCOME", {
-        height: 2,
-        size: 8,
-        font: droidFont,
-      });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      home = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      home.position.set(-3900, 0, 3900);
-      home.rotateOnAxis(new THREE.Vector3(0, 1, 0), (7 * Math.PI) / 4);
-      scene.add(home);
-    }
-  );
 }
 
 //Fit to Window
@@ -171,7 +139,7 @@ function animate() {
 function render() {
   const time = performance.now() * 0.0025;
   water.material.uniforms["time"].value += 1.0 / 60.0;
-  home.position.y = Math.sin( time );
+  // textMeshHome.position.x += 0.001
   controls.update(clock.getDelta());
   renderer.render(scene, camera);
 }

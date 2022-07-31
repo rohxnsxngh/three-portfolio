@@ -12,14 +12,14 @@ function createControl(controls) {
   //First Person Controls
   controls = new FirstPersonControls(camera, renderer.domElement);
   controls.movementSpeed = 100;
-  controls.lookSpeed = 0.008;
-  controls.heightMin = 10
-  controls.heightCoef = 10
-  controls.constrainVertical = true
-  controls.mouseDragOn = false
+  controls.lookSpeed = 0.025;
+  controls.heightMin = 10;
+  controls.heightCoef = 10;
+  controls.constrainVertical = true;
+  controls.mouseDragOn = false;
   //controls mouse look around
-  controls.activeLook = false
-  controls.lookVertical = false
+  controls.activeLook = true;
+  controls.lookVertical = false;
 }
 
 export { createControl };
