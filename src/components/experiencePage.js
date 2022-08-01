@@ -20,6 +20,52 @@ function expPage(scene) {
       scene.add(textMeshHome);
     }
   );
+
+  // //load Tesla Logo
+  // const loader = new GLTFLoader();
+  // loader.load(
+  //   "./src/assets/TeslaLogo/scene.gltf",
+  //   function (gltf) {
+  //     const object = gltf.scene;
+  //     object.position.set(-2400, 20, 2300);
+  //     object.scale.set(50, 50, 50);
+  //     object.rotateOnAxis(new THREE.Vector3(0, 1, 0), (3 * Math.PI) / 4);
+  //     object.castShadow = true;
+  //     scene.add(object);
+  //   },
+  //   // onProgress callback
+  //   function (xhr) {
+  //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded - Tesla Logo");
+  //   },
+
+  //   // onError callback
+  //   function (err) {
+  //     console.log("An error happened");
+  //   }
+  // );
+
+  //Cyber Truck
+  // const loaderCyber = new GLTFLoader();
+  // loaderCyber.load(
+  //   "./src/assets/CyberTruck/scene.gltf",
+  //   function (gltf) {
+  //     const object = gltf.scene;
+  //     object.position.set(-2400, -5, 2500);
+  //     object.scale.set(20,20,20)
+  //     object.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
+  //     object.castShadow = true;
+  //     scene.add(object);
+  //   },
+  //   // onProgress callback
+  //   function (xhr) {
+  //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded - Tesla Logo");
+  //   },
+
+  //   // onError callback
+  //   function (err) {
+  //     console.log("An error happened");
+  //   }
+  // );
 }
 
 export { expPage };

@@ -11,7 +11,7 @@ import { contactPage } from "./components/contactPage";
 
 let container, stats;
 let camera, scene, renderer, clock;
-let controls, water, sun;
+let controls, water, upperwater, sun;
 let textMeshHome;
 
 function init() {
@@ -28,7 +28,7 @@ function init() {
   camera.position.set(-4000, 30, 4000);
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -38,13 +38,17 @@ function init() {
   const light = new THREE.AmbientLight(0x404040);
   scene.add(light);
 
+  // White directional light at half intensity shining from the top.
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  scene.add(directionalLight);
+
   //clock
   clock = new THREE.Clock();
 
   sun = new THREE.Vector3();
 
   // Water
-  const waterGeometry = new THREE.PlaneGeometry(20000, 20000);
+  const waterGeometry = new THREE.PlaneGeometry(40000, 40000);
 
   water = new Water(waterGeometry, {
     textureWidth: 512,
@@ -61,10 +65,28 @@ function init() {
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
-
   water.rotation.x = -Math.PI / 2;
-
   scene.add(water);
+
+  upperwater = new Water(waterGeometry, {
+    textureWidth: 512,
+    textureHeight: 512,
+    waterNormals: new THREE.TextureLoader().load(
+      "/src/assets/waternormals.jpg",
+      function (texture) {
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      }
+    ),
+    sunDirection: new THREE.Vector3(),
+    sunColor: 0xfb3535,
+    waterColor: 0x59E9FA,
+    distortionScale: 3.7,
+    fog: scene.fog !== undefined,
+  });
+  upperwater.rotation.x = -Math.PI / 2;
+  upperwater.position.set(0,100,0)
+  upperwater.rotateOnAxis(new THREE.Vector3(0,1,0),Math.PI)
+  scene.add(upperwater)
 
   //SkyBox
   const sky = new Sky();
@@ -74,7 +96,7 @@ function init() {
   const skyUniforms = sky.material.uniforms;
 
   skyUniforms["turbidity"].value = 15;
-  skyUniforms["rayleigh"].value = 10; // twilight mode is 0, sunset mode is 10
+  skyUniforms["rayleigh"].value = 3.5; // twilight mode is 0, sunset mode is 10
   skyUniforms["mieCoefficient"].value = 0.007;
   skyUniforms["mieDirectionalG"].value = 0.8;
 
@@ -139,6 +161,7 @@ function animate() {
 function render() {
   const time = performance.now() * 0.0025;
   water.material.uniforms["time"].value += 1.0 / 60.0;
+  upperwater.material.uniforms["time"].value += 1.0 / 60.0;
   // textMeshHome.position.x += 0.001
   controls.update(clock.getDelta());
   renderer.render(scene, camera);
