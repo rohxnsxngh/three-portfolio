@@ -21,6 +21,23 @@ function contactPage(scene) {
     }
   );
 
+  const fontLoaderContactDesc = new FontLoader();
+  fontLoaderContactDesc.load(
+    "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
+    (droidFont) => {
+      const textGeometryHome = new TextGeometry("Hover near the top of the page\nfor more information", {
+        height: 1,
+        size: 5,
+        font: droidFont,
+      });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
+      textMeshHome.position.set(-1950, 15, 1900);
+      textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
+      scene.add(textMeshHome);
+    }
+  );
+
   const geometry = new THREE.PlaneGeometry(1.7, 1);
   const material = new THREE.MeshBasicMaterial({
     color: 0xffffff,

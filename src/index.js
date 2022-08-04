@@ -12,7 +12,7 @@ import { expPage } from "./components/experiencePage";
 import { contactPage } from "./components/contactPage";
 
 let container, stats;
-let camera, scene, renderer, clock;
+let camera, scene, renderer, clock, object;
 let controls, water, upperwater, sun;
 let textMeshHome;
 
@@ -30,7 +30,7 @@ function init() {
   camera.position.set(-4000, 30, 4000);
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -63,7 +63,7 @@ function init() {
     ),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xe27d60,
-    waterColor: 0xEB4036,
+    waterColor: 0xeb4036,
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
@@ -133,6 +133,7 @@ function init() {
   aboutPage(scene);
   expPage(scene);
   contactPage(scene);
+  createRoadster(scene);
 
   //Controls
   controls = new OrbitControls(camera, renderer.domElement);
@@ -152,6 +153,31 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+function createRoadster(scene) {
+  //load Tesla Roadster
+  const loaderRoadster = new GLTFLoader();
+  loaderRoadster.load(
+    "./src/assets/CyberTruck/scene.gltf",
+    function (gltf) {
+      object = gltf.scene;
+      object.position.set(-2350, -10, 2625);
+      object.scale.set(45, 45, 45);
+      object.rotateOnAxis(new THREE.Vector3(0, 1, 0), -Math.PI/2);
+      object.castShadow = true;
+      scene.add(object);
+    },
+    // onProgress callback
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+
+    // onError callback
+    function (err) {
+      console.log("An error happened");
+    }
+  );
+}
+
 //Animate
 function animate() {
   requestAnimationFrame(animate);
@@ -164,7 +190,6 @@ function render() {
   const time = performance.now() * 0.0025;
   water.material.uniforms["time"].value += 1.0 / 60.0;
   upperwater.material.uniforms["time"].value += 1.0 / 60.0;
-  // textMeshHome.position.x += 0.001
   controls.update(clock.getDelta());
   renderer.render(scene, camera);
 }
