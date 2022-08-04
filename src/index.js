@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Water } from "three/examples/jsm/objects/Water.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
@@ -62,7 +63,7 @@ function init() {
     ),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xe27d60,
-    waterColor: 0x80ebe2,
+    waterColor: 0xEB4036,
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
@@ -97,7 +98,7 @@ function init() {
   const skyUniforms = sky.material.uniforms;
 
   skyUniforms["turbidity"].value = 0.1;
-  skyUniforms["rayleigh"].value = 0; // twilight mode is 0, sunset mode is 3
+  skyUniforms["rayleigh"].value = 2; // twilight mode is 0, sunset mode is 3
   skyUniforms["mieCoefficient"].value = 0.5;
   skyUniforms["mieDirectionalG"].value = 0.7;
 
@@ -133,9 +134,9 @@ function init() {
   expPage(scene);
   contactPage(scene);
 
-  //Controls - for development
+  //Controls
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI;
+  controls.maxPolarAngle = Math.PI * 0.726;
   controls.target.set(0, 10, 0);
 
   //Stats

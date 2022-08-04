@@ -8,18 +8,28 @@ function contactPage(scene) {
   fontLoaderContact.load(
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
-      const textGeometryHome = new TextGeometry("Contact", {
+      const textGeometryHome = new TextGeometry("Contact Me", {
         height: 2,
         size: 8,
         font: droidFont,
       });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-1900, 0, 1900);
-      textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (7 * Math.PI) / 4);
+      textMeshHome.position.set(-1950, 35, 1900);
+      textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
   );
+
+  const geometry = new THREE.PlaneGeometry(1.7, 1);
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    side: THREE.DoubleSide,
+  });
+  const plane = new THREE.Mesh(geometry, material);
+  plane.position.set(-1900, 0, 1900);
+  plane.scale.set(100, 100, 100);
+  scene.add(plane);
 }
 
 export { contactPage };

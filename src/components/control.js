@@ -4,7 +4,7 @@ import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonCont
 function createControl(controls) {
   //Controls
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.495;
+  controls.maxPolarAngle = Math.PI * 0.725;
   controls.target.set(0, 10, 0);
   controls.minDistance = 40.0;
   controls.maxDistance = 200.0;
