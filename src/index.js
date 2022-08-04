@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Water } from "three/examples/jsm/objects/Water.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { createCurve } from "./components/curve";
@@ -60,8 +61,8 @@ function init() {
       }
     ),
     sunDirection: new THREE.Vector3(),
-    sunColor: 0xfb3535,
-    waterColor: 0xe67cd3,
+    sunColor: 0xe27d60,
+    waterColor: 0x80ebe2,
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
@@ -78,15 +79,15 @@ function init() {
       }
     ),
     sunDirection: new THREE.Vector3(),
-    sunColor: 0xfb3535,
-    waterColor: 0x59E9FA,
+    sunColor: 0xe27d60,
+    waterColor: 0xc38d9e,
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
   upperwater.rotation.x = -Math.PI / 2;
-  upperwater.position.set(0,100,0)
-  upperwater.rotateOnAxis(new THREE.Vector3(0,1,0),Math.PI)
-  scene.add(upperwater)
+  upperwater.position.set(0, 100, 0);
+  upperwater.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
+  scene.add(upperwater);
 
   //SkyBox
   const sky = new Sky();
@@ -95,10 +96,10 @@ function init() {
 
   const skyUniforms = sky.material.uniforms;
 
-  skyUniforms["turbidity"].value = 15;
-  skyUniforms["rayleigh"].value = 3.5; // twilight mode is 0, sunset mode is 10
-  skyUniforms["mieCoefficient"].value = 0.007;
-  skyUniforms["mieDirectionalG"].value = 0.8;
+  skyUniforms["turbidity"].value = 0.1;
+  skyUniforms["rayleigh"].value = 0; // twilight mode is 0, sunset mode is 3
+  skyUniforms["mieCoefficient"].value = 0.5;
+  skyUniforms["mieDirectionalG"].value = 0.7;
 
   const parameters = {
     elevation: 0,
@@ -134,12 +135,12 @@ function init() {
 
   //Controls - for development
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.725;
+  controls.maxPolarAngle = Math.PI;
   controls.target.set(0, 10, 0);
 
   //Stats
-  stats = new Stats();
-  container.appendChild(stats.dom);
+  // stats = new Stats();
+  // container.appendChild(stats.dom);
   window.addEventListener("resize", onWindowResize);
 }
 
@@ -154,7 +155,7 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame(animate);
   render();
-  stats.update();
+  // stats.update();
 }
 
 //Render
