@@ -10,6 +10,7 @@ import { homePage } from "./components/homePage";
 import { aboutPage } from "./components/aboutPage";
 import { expPage } from "./components/experiencePage";
 import { contactPage } from "./components/contactPage";
+import { createAmbientSound } from "./components/ambientSound";
 
 let container, stats;
 let camera, scene, renderer, clock, object;
@@ -33,6 +34,7 @@ function init() {
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   container.appendChild(renderer.domElement);
 
@@ -63,7 +65,7 @@ function init() {
     ),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xe27d60,
-    waterColor: 0xeb4036,
+    waterColor: 0x6AEFF5,
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
@@ -133,12 +135,20 @@ function init() {
   aboutPage(scene);
   expPage(scene);
   contactPage(scene);
-  createRoadster(scene);
+  createAmbientSound(camera);
 
-  //Controls
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.726;
-  controls.target.set(0, 10, 0);
+
+  //First Person Controls
+  controls = new FirstPersonControls(camera, renderer.domElement);
+  controls.movementSpeed = 100;
+  controls.lookSpeed = 0.025;
+  controls.heightMin = 10;
+  controls.heightCoef = 10;
+  controls.constrainVertical = true;
+  controls.mouseDragOn = false;
+  //controls mouse look around
+  controls.activeLook = true;
+  controls.lookVertical = false;
 
   //Stats
   // stats = new Stats();
@@ -151,31 +161,6 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function createRoadster(scene) {
-  //load Tesla Roadster
-  const loaderRoadster = new GLTFLoader();
-  loaderRoadster.load(
-    "./src/assets/CyberTruck/scene.gltf",
-    function (gltf) {
-      object = gltf.scene;
-      object.position.set(-2350, -10, 2625);
-      object.scale.set(45, 45, 45);
-      object.rotateOnAxis(new THREE.Vector3(0, 1, 0), -Math.PI/2);
-      object.castShadow = true;
-      scene.add(object);
-    },
-    // onProgress callback
-    function (xhr) {
-      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    },
-
-    // onError callback
-    function (err) {
-      console.log("An error happened");
-    }
-  );
 }
 
 //Animate
