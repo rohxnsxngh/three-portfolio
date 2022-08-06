@@ -11,9 +11,10 @@ import { aboutPage } from "./components/aboutPage";
 import { expPage } from "./components/experiencePage";
 import { contactPage } from "./components/contactPage";
 import { createAmbientSound } from "./components/ambientSound";
+import { createKeys } from "./components/controlKeys";
 
 let container, stats;
-let camera, scene, renderer, clock, object;
+let camera, scene, renderer, clock;
 let controls, water, upperwater, sun;
 let textMeshHome;
 
@@ -135,20 +136,13 @@ function init() {
   aboutPage(scene);
   expPage(scene);
   contactPage(scene);
-  createAmbientSound(camera);
+  const keys = createKeys(scene)
+  // createAmbientSound(camera);
 
-
-  //First Person Controls
-  controls = new FirstPersonControls(camera, renderer.domElement);
-  controls.movementSpeed = 100;
-  controls.lookSpeed = 0.025;
-  controls.heightMin = 10;
-  controls.heightCoef = 10;
-  controls.constrainVertical = true;
-  controls.mouseDragOn = false;
-  //controls mouse look around
-  controls.activeLook = true;
-  controls.lookVertical = false;
+  //Controls
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.maxPolarAngle = Math.PI * 0.725;
+  controls.target.set(0, 10, 0);
 
   //Stats
   // stats = new Stats();
@@ -164,7 +158,7 @@ function onWindowResize() {
 }
 
 //Animate
-function animate() {
+function animate(keys) {
   requestAnimationFrame(animate);
   render();
   // stats.update();
