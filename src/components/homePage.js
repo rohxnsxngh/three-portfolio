@@ -13,9 +13,9 @@ function homePage(scene) {
         size: 8,
         font: droidFont,
       });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3900, 35, 3800);
+      textMeshHome.position.set(-3900, 60, 3800);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
@@ -33,23 +33,36 @@ function homePage(scene) {
           font: droidFont,
         }
       );
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3925, 15, 3800);
+      textMeshHome.position.set(-3925, 40, 3800);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
   );
 
-  const geometry = new THREE.PlaneGeometry(1.7, 1);
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    side: THREE.DoubleSide,
-  });
-  const plane = new THREE.Mesh(geometry, material);
-  plane.position.set(-3850, 0, 3800);
-  plane.scale.set(100, 100, 100);
-  scene.add(plane);
+   //load Card Background
+   const loader = new GLTFLoader();
+   loader.load(
+     "./src/assets/AbstractAquarium/scene.gltf",
+     function (gltf) {
+       const object = gltf.scene;
+       object.position.set(-3775, 10, 3798);
+       object.scale.set(0.9, 0.60, 0.025);
+       object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI/2);
+       object.castShadow = true;
+       scene.add(object);
+     },
+     // onProgress callback
+     function (xhr) {
+       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+     },
+ 
+     // onError callback
+     function (err) {
+       console.log("An error happened");
+     }
+   );
 }
 
 export { homePage };

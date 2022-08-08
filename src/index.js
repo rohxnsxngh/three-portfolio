@@ -44,7 +44,7 @@ function init() {
   scene.add(light);
 
   // White directional light at half intensity shining from the top.
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 15);
   scene.add(directionalLight);
 
   //clock
