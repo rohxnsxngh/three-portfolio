@@ -16,9 +16,9 @@ function aboutPage(scene) {
           font: droidFont,
         }
       );
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3400, 50, 3400);
+      textMeshHome.position.set(-3400, 60, 3400);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
       scene.add(textMeshHome);
     }
@@ -33,9 +33,9 @@ function aboutPage(scene) {
         size: 8,
         font: droidFont,
       });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3050, 45, 2900);
+      textMeshHome.position.set(-3050, 65, 2900);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
@@ -50,29 +50,60 @@ function aboutPage(scene) {
         size: 5,
         font: droidFont,
       });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3125, 30, 2900);
+      textMeshHome.position.set(-3125, 45, 2900);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
   );
 
-  const geometry = new THREE.PlaneGeometry(3, 1.3);
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    side: THREE.DoubleSide,
-  });
-  const plane = new THREE.Mesh(geometry, material);
-  const plane2 = new THREE.Mesh(geometry, material);
-  plane.position.set(-3400, 0, 3575);
-  plane2.position.set(-3000, 0, 2900);
-  plane.scale.set(100, 100, 100);
-  plane2.scale.set(100, 100, 100);
-  plane.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-  plane2.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
-  scene.add(plane);
-  scene.add(plane2)
+  //load Card Background
+  const loaderBg = new GLTFLoader();
+  loaderBg.load(
+    "./src/assets/AbstractAquarium/scene.gltf",
+    function (gltf) {
+      const object = gltf.scene;
+      object.position.set(-3395, 35, 3450);
+      object.scale.set(0.9, 1, 0.025);
+      object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+      object.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI/2);
+      object.castShadow = true;
+      scene.add(object);
+    },
+    // onProgress callback
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+
+    // onError callback
+    function (err) {
+      console.log("An error happened");
+    }
+  );
+
+    //load Card Background 2
+    const loaderBg2 = new GLTFLoader();
+    loaderBg2.load(
+      "./src/assets/AbstractAquarium/scene.gltf",
+      function (gltf) {
+        const object = gltf.scene;
+        object.position.set(-2925, 0, 2898);
+        object.scale.set(0.9, 0.75, 0.025);
+        object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+        object.castShadow = true;
+        scene.add(object);
+      },
+      // onProgress callback
+      function (xhr) {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+      },
+  
+      // onError callback
+      function (err) {
+        console.log("An error happened");
+      }
+    );
 }
 
 export { aboutPage };

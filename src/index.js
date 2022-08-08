@@ -32,7 +32,7 @@ function init() {
   camera.position.set(-4000, 30, 4000);
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -101,7 +101,7 @@ function init() {
   const skyUniforms = sky.material.uniforms;
 
   skyUniforms["turbidity"].value = 0.1;
-  skyUniforms["rayleigh"].value = 2; // twilight mode is 0, sunset mode is 3
+  skyUniforms["rayleigh"].value = 0; // twilight mode is 0, sunset mode is 3
   skyUniforms["mieCoefficient"].value = 0.5;
   skyUniforms["mieDirectionalG"].value = 0.7;
 
@@ -175,3 +175,8 @@ function render() {
 
 init();
 animate();
+
+console.log("Scene polycount:", renderer.info.render.triangles)
+console.log("Active Drawcalls:", renderer.info.render.calls)
+console.log("Textures in Memory", renderer.info.memory.textures)
+console.log("Geometries in Memory", renderer.info.memory.geometries)

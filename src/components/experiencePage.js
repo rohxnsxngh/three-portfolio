@@ -8,16 +8,43 @@ function expPage(scene) {
   fontLoaderExp.load(
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
-      const textGeometryHome = new TextGeometry("Professional Experience\nSoftware Developer Intern", {
-        height: 2,
-        size: 8,
-        font: droidFont,
-      });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textGeometryHome = new TextGeometry(
+        "Professional Experience\nSoftware Developer Intern",
+        {
+          height: 2,
+          size: 8,
+          font: droidFont,
+        }
+      );
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-2400, 60, 2450);
+      textMeshHome.position.set(-2400, 75, 2450);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
       scene.add(textMeshHome);
+    }
+  );
+
+  //load Card Background
+  const loaderBg = new GLTFLoader();
+  loaderBg.load(
+    "./src/assets/AbstractAquarium/scene.gltf",
+    function (gltf) {
+      const object = gltf.scene;
+      object.position.set(-2395, 45, 2400);
+      object.scale.set(0.9, 0.85, 0.025);
+      object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+      object.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI/2);
+      object.castShadow = true;
+      scene.add(object);
+    },
+    // onProgress callback
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+
+    // onError callback
+    function (err) {
+      console.log("An error happened");
     }
   );
 
@@ -25,14 +52,17 @@ function expPage(scene) {
   fontLoaderExp2.load(
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
-      const textGeometryHome = new TextGeometry("Vue.js, Bootstrap 5, Tailwind CSS, .NET 4.7.2, \nPostgreSQL, Javascript, CSS, HTML, Express.js,\nThree.js, Python, C#", {
-        height: 1,
-        size: 5,
-        font: droidFont,
-      });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textGeometryHome = new TextGeometry(
+        "Vue.js, Bootstrap 5, Tailwind CSS, .NET 4.7.2, \nPostgreSQL, Javascript, CSS, HTML, Express.js,\nThree.js, Python, C#",
+        {
+          height: 1,
+          size: 5,
+          font: droidFont,
+        }
+      );
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-2400, 30, 2450);
+      textMeshHome.position.set(-2400, 40, 2450);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
       scene.add(textMeshHome);
     }
@@ -44,7 +74,7 @@ function expPage(scene) {
     "./src/assets/TeslaLogo/scene.gltf",
     function (gltf) {
       const object = gltf.scene;
-      object.position.set(-2400, 35, 2415);
+      object.position.set(-2400, 50, 2415);
       object.scale.set(55, 55, 55);
       object.rotateOnAxis(new THREE.Vector3(0, 1, 0), (5 * Math.PI) / 3.075);
       object.castShadow = true;
@@ -60,17 +90,6 @@ function expPage(scene) {
       console.log("An error happened");
     }
   );
-
-  const geometry = new THREE.PlaneGeometry(2.5, 1.5);
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    side: THREE.DoubleSide,
-  });
-  const plane = new THREE.Mesh(geometry, material);
-  plane.position.set(-2400, 0, 2500);
-  plane.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-  plane.scale.set(100, 100, 100);
-  scene.add(plane);
 }
 
 export { expPage };
