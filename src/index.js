@@ -12,6 +12,7 @@ import { expPage } from "./components/experiencePage";
 import { contactPage } from "./components/contactPage";
 import { createAmbientSound } from "./components/ambientSound";
 import { createKeys } from "./components/controlKeys";
+import { createBackground } from "./components/createBackground";
 
 let container, stats;
 let camera, scene, renderer, clock;
@@ -32,7 +33,11 @@ function init() {
   camera.position.set(-4000, 30, 4000);
 
   // Renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+  renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true,
+    powerPreference: "high-performance",
+  });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -50,10 +55,11 @@ function init() {
   //clock
   clock = new THREE.Clock();
 
+  //Sun
   sun = new THREE.Vector3();
 
-  // Water
-  const waterGeometry = new THREE.PlaneGeometry(40000, 40000);
+  //Water
+  const waterGeometry = new THREE.PlaneGeometry(20000, 20000);
 
   water = new Water(waterGeometry, {
     textureWidth: 512,
@@ -66,7 +72,7 @@ function init() {
     ),
     sunDirection: new THREE.Vector3(),
     sunColor: 0xe27d60,
-    waterColor: 0x6AEFF5,
+    waterColor: 0x6aeff5,
     distortionScale: 3.7,
     fog: scene.fog !== undefined,
   });
@@ -136,8 +142,9 @@ function init() {
   aboutPage(scene);
   expPage(scene);
   contactPage(scene);
-  const keys = createKeys(scene)
+  createKeys(scene);
   // createAmbientSound(camera);
+  createBackground(scene); // pretty detailed background seems to require high performance
 
   //Controls
   controls = new OrbitControls(camera, renderer.domElement);
@@ -159,7 +166,9 @@ function onWindowResize() {
 
 //Animate
 function animate(keys) {
-  requestAnimationFrame(animate);
+  setTimeout( function() {
+    requestAnimationFrame(animate);
+  }, 1000 / 30)
   render();
   // stats.update();
 }
@@ -176,7 +185,7 @@ function render() {
 init();
 animate();
 
-console.log("Scene polycount:", renderer.info.render.triangles)
-console.log("Active Drawcalls:", renderer.info.render.calls)
-console.log("Textures in Memory", renderer.info.memory.textures)
-console.log("Geometries in Memory", renderer.info.memory.geometries)
+console.log("Scene Polycount:", renderer.info.render.triangles);
+console.log("Active Drawcalls:", renderer.info.render.calls);
+console.log("Textures in Memory", renderer.info.memory.textures);
+console.log("Geometries in Memory", renderer.info.memory.geometries);

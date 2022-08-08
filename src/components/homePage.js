@@ -40,29 +40,6 @@ function homePage(scene) {
       scene.add(textMeshHome);
     }
   );
-
-   //load Card Background
-   const loader = new GLTFLoader();
-   loader.load(
-     "./src/assets/AbstractAquarium/scene.gltf",
-     function (gltf) {
-       const object = gltf.scene;
-       object.position.set(-3775, 10, 3798);
-       object.scale.set(0.9, 0.60, 0.025);
-       object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI/2);
-       object.castShadow = true;
-       scene.add(object);
-     },
-     // onProgress callback
-     function (xhr) {
-       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-     },
- 
-     // onError callback
-     function (err) {
-       console.log("An error happened");
-     }
-   );
 }
 
 export { homePage };

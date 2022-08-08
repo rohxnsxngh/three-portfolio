@@ -9,7 +9,7 @@ function aboutPage(scene) {
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
       const textGeometryHome = new TextGeometry(
-        "                   Education | Texas A&M University\n                   Major | Mechanical Engineering\n                   Minor | Computer Science, Applied Mathematics",
+        "                 Education | Texas A&M University",
         {
           height: 2,
           size: 8,
@@ -18,7 +18,27 @@ function aboutPage(scene) {
       );
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3400, 60, 3400);
+      textMeshHome.position.set(-3400, 70, 3400);
+      textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
+      scene.add(textMeshHome);
+    }
+  );
+
+  const fontLoaderEducationDesc = new FontLoader();
+  fontLoaderEducationDesc.load(
+    "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
+    (droidFont) => {
+      const textGeometryHome = new TextGeometry(
+        "                      B.S | Mechanical Engineering & Computer Science",
+        {
+          height: 2,
+          size: 6,
+          font: droidFont,
+        }
+      );
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
+      textMeshHome.position.set(-3400, 45, 3400);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
       scene.add(textMeshHome);
     }
@@ -45,7 +65,7 @@ function aboutPage(scene) {
   fontLoaderDesc2.load(
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
-      const textGeometryHome = new TextGeometry("I love exploring the world of Software Development and\nMechanical Engineering. My primary interests are web \ndevelopment, robotics, and machine learning.", {
+      const textGeometryHome = new TextGeometry("I love exploring the world of Software Development and\nMechanical Engineering. My primary interests are web \ndevelopment, robotics, and machine learning. In my\nfree time I enjoy play basketball and video games", {
         height: 1,
         size: 5,
         font: droidFont,
@@ -57,53 +77,6 @@ function aboutPage(scene) {
       scene.add(textMeshHome);
     }
   );
-
-  //load Card Background
-  const loaderBg = new GLTFLoader();
-  loaderBg.load(
-    "./src/assets/AbstractAquarium/scene.gltf",
-    function (gltf) {
-      const object = gltf.scene;
-      object.position.set(-3395, 35, 3450);
-      object.scale.set(0.9, 1, 0.025);
-      object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
-      object.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI/2);
-      object.castShadow = true;
-      scene.add(object);
-    },
-    // onProgress callback
-    function (xhr) {
-      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    },
-
-    // onError callback
-    function (err) {
-      console.log("An error happened");
-    }
-  );
-
-    //load Card Background 2
-    const loaderBg2 = new GLTFLoader();
-    loaderBg2.load(
-      "./src/assets/AbstractAquarium/scene.gltf",
-      function (gltf) {
-        const object = gltf.scene;
-        object.position.set(-2925, 0, 2898);
-        object.scale.set(0.9, 0.75, 0.025);
-        object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
-        object.castShadow = true;
-        scene.add(object);
-      },
-      // onProgress callback
-      function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-  
-      // onError callback
-      function (err) {
-        console.log("An error happened");
-      }
-    );
 }
 
 export { aboutPage };

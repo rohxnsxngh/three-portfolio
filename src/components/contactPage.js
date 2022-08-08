@@ -13,9 +13,9 @@ function contactPage(scene) {
         size: 8,
         font: droidFont,
       });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-1950, 35, 1900);
+      textMeshHome.position.set(-1950, 60, 1900);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
@@ -30,23 +30,13 @@ function contactPage(scene) {
         size: 5,
         font: droidFont,
       });
-      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-1950, 15, 1900);
+      textMeshHome.position.set(-1950, 45, 1900);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
   );
-
-  const geometry = new THREE.PlaneGeometry(1.7, 1);
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    side: THREE.DoubleSide,
-  });
-  const plane = new THREE.Mesh(geometry, material);
-  plane.position.set(-1900, 0, 1900);
-  plane.scale.set(100, 100, 100);
-  scene.add(plane);
 }
 
 export { contactPage };

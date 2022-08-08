@@ -24,30 +24,6 @@ function expPage(scene) {
     }
   );
 
-  //load Card Background
-  const loaderBg = new GLTFLoader();
-  loaderBg.load(
-    "./src/assets/AbstractAquarium/scene.gltf",
-    function (gltf) {
-      const object = gltf.scene;
-      object.position.set(-2395, 45, 2400);
-      object.scale.set(0.9, 0.85, 0.025);
-      object.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
-      object.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI/2);
-      object.castShadow = true;
-      scene.add(object);
-    },
-    // onProgress callback
-    function (xhr) {
-      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    },
-
-    // onError callback
-    function (err) {
-      console.log("An error happened");
-    }
-  );
-
   const fontLoaderExp2 = new FontLoader();
   fontLoaderExp2.load(
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
