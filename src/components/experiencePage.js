@@ -18,7 +18,7 @@ function expPage(scene) {
       );
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-2400, 75, 2450);
+      textMeshHome.position.set(-2400, 75, 2550);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
       scene.add(textMeshHome);
     }
@@ -38,7 +38,7 @@ function expPage(scene) {
       );
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-2400, 40, 2450);
+      textMeshHome.position.set(-2400, 40, 2550);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), (-1 * Math.PI) / 2);
       scene.add(textMeshHome);
     }
@@ -50,7 +50,7 @@ function expPage(scene) {
     "./src/assets/TeslaLogo/scene.gltf",
     function (gltf) {
       const object = gltf.scene;
-      object.position.set(-2400, 50, 2415);
+      object.position.set(-2400, 50, 2515);
       object.scale.set(55, 55, 55);
       object.rotateOnAxis(new THREE.Vector3(0, 1, 0), (5 * Math.PI) / 3.075);
       object.castShadow = true;

@@ -13,6 +13,7 @@ import { contactPage } from "./components/contactPage";
 import { createAmbientSound } from "./components/ambientSound";
 import { createKeys } from "./components/controlKeys";
 import { createBackground } from "./components/createBackground";
+import { createWelcome } from "./components/welcomePage";
 
 let container, stats;
 let camera, scene, renderer, clock;
@@ -143,6 +144,7 @@ function init() {
   expPage(scene);
   contactPage(scene);
   createKeys(scene);
+  createWelcome(scene);
   // createAmbientSound(camera);
   createBackground(scene); // pretty detailed background seems to require high performance
 

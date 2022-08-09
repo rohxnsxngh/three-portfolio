@@ -15,7 +15,7 @@ function homePage(scene) {
       });
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3900, 60, 3800);
+      textMeshHome.position.set(-3950, 60, 3800);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
@@ -26,7 +26,7 @@ function homePage(scene) {
     "./node_modules/three/examples/fonts/droid/droid_serif_bold.typeface.json",
     (droidFont) => {
       const textGeometryHome = new TextGeometry(
-        "MECHANICAL ENGINEER | SOFTWARE DEVELOPMENT",
+        "MECHANICAL ENGINEER |\n  SOFTWARE DEVELOPER |",
         {
           height: 1,
           size: 4,
@@ -35,7 +35,7 @@ function homePage(scene) {
       );
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3925, 40, 3800);
+      textMeshHome.position.set(-3950, 40, 3800);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }

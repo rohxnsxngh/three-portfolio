@@ -9,7 +9,7 @@ function aboutPage(scene) {
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
       const textGeometryHome = new TextGeometry(
-        "                 Education | Texas A&M University",
+        "                 EDUCATION | Texas A&M University",
         {
           height: 2,
           size: 8,
@@ -48,14 +48,14 @@ function aboutPage(scene) {
   fontLoaderDesc.load(
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
-      const textGeometryHome = new TextGeometry("About Me", {
+      const textGeometryHome = new TextGeometry("ABOUT ME", {
         height: 2,
         size: 8,
         font: droidFont,
       });
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3050, 65, 2900);
+      textMeshHome.position.set(-3200, 65, 2900);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
@@ -72,7 +72,7 @@ function aboutPage(scene) {
       });
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const textMeshHome = new THREE.Mesh(textGeometryHome, textMaterialHome);
-      textMeshHome.position.set(-3125, 45, 2900);
+      textMeshHome.position.set(-3200, 45, 2900);
       textMeshHome.rotateOnAxis(new THREE.Vector3(0, 1, 0), 0);
       scene.add(textMeshHome);
     }
