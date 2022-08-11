@@ -6,7 +6,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 function createKeys(scene) {
   //load Keycap W
   const loaderW = new GLTFLoader();
-  loaderW.load("./src/assets/KeycapDark/scene.gltf", function (gltf) {
+  loaderW.load("./src/public/KeycapDark/scene.gltf", function (gltf) {
     const object = gltf.scene
     const objectW = object.clone();
     objectW.position.set(-3900, -2, 3975);

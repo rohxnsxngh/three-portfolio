@@ -47,7 +47,7 @@ function expPage(scene) {
   //load Tesla Logo
   const loader = new GLTFLoader();
   loader.load(
-    "./src/assets/TeslaLogo/scene.gltf",
+    "./src/public/TeslaLogo/scene.gltf",
     function (gltf) {
       const object = gltf.scene;
       object.position.set(-2400, 50, 2515);
