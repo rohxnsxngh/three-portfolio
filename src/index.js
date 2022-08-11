@@ -33,15 +33,9 @@ function init() {
   );
   camera.position.set(-4000, 30, 4000);
 
-  //pixel check
-  let pixelRatio = window.devicePixelRatio
-  let antiAlias = true
-  if (pixelRatio > 1) {
-    antiAlias = false
-  }
   // Renderer
   renderer = new THREE.WebGLRenderer({
-    antialias: antiAlias,
+    antialias: true,
     alpha: true,
     powerPreference: "high-performance",
   });
@@ -160,8 +154,8 @@ function init() {
   controls.target.set(0, 10, 0);
 
   //Stats
-  stats = new Stats();
-  container.appendChild(stats.dom);
+  // stats = new Stats();
+  // container.appendChild(stats.dom);
   window.addEventListener("resize", onWindowResize);
 }
 
@@ -176,10 +170,9 @@ function onWindowResize() {
 function animate(keys) {
   setTimeout( function() {
     requestAnimationFrame(animate);
-  }, 1000 / 30) //change this to 20-40 when it's time for production
-  // requestAnimationFrame(animate);
+  }, 1000 / 30)
   render();
-  stats.update();
+  // stats.update();
 }
 
 //Render
