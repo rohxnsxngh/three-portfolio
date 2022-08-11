@@ -145,13 +145,20 @@ function init() {
   contactPage(scene);
   createKeys(scene);
   createWelcome(scene);
-  // createAmbientSound(camera);
+  createAmbientSound(camera);
   createBackground(scene); // pretty detailed background seems to require high performance
 
-  //Controls
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.725;
-  controls.target.set(0, 10, 0);
+  //First Person Controls
+  controls = new FirstPersonControls(camera, renderer.domElement);
+  controls.movementSpeed = 100;
+  controls.lookSpeed = 0.025;
+  controls.heightMin = 10;
+  controls.heightCoef = 10;
+  controls.constrainVertical = true;
+  controls.mouseDragOn = false;
+  //controls mouse look around
+  controls.activeLook = true;
+  controls.lookVertical = false;
 
   //Stats
   // stats = new Stats();
