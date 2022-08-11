@@ -10,7 +10,7 @@ function createBackground(scene) {
     "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/";
   dracoLoader.setDecoderPath(path);
   loader.setDRACOLoader(dracoLoader);
-  loader.load("./src/assets/AbstractAquarium/scene.gltf", function (gltf) {
+  loader.load("./public/AbstractAquarium/scene.gltf", function (gltf) {
     const object = gltf.scene;
     const objectHome = object.clone();
     objectHome.position.set(-3850, 10, 3798);
