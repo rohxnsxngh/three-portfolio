@@ -177,7 +177,7 @@ function onWindowResize() {
 function animate(keys) {
   setTimeout( function() {
     requestAnimationFrame(animate);
-  }, 1000 / 40)
+  }, 1000 / 500)
   render();
   // stats.update();
 }
