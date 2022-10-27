@@ -33,6 +33,12 @@ function init() {
   );
   camera.position.set(-4000, 30, 4000);
 
+  //fog
+  const color = 0xEB4950;  // change color
+  const near = 100;
+  const far = 1000;
+  scene.fog = new THREE.Fog(color, near, far);
+
   // Renderer
   renderer = new THREE.WebGLRenderer({
     antialias: true,
@@ -66,7 +72,7 @@ function init() {
     textureWidth: 512,
     textureHeight: 512,
     waterNormals: new THREE.TextureLoader().load(
-      "/public/waternormals.jpg",
+      "/waternormals.jpg",
       function (texture) {
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
       }
@@ -84,7 +90,7 @@ function init() {
     textureWidth: 512,
     textureHeight: 512,
     waterNormals: new THREE.TextureLoader().load(
-      "/public/waternormals.jpg",
+      "/waternormals.jpg",
       function (texture) {
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
       }
@@ -108,7 +114,7 @@ function init() {
   const skyUniforms = sky.material.uniforms;
 
   skyUniforms["turbidity"].value = 0.1;
-  skyUniforms["rayleigh"].value = 0; // twilight mode is 0, sunset mode is 3
+  skyUniforms["rayleigh"].value = 4; // twilight mode is 0, sunset mode is 3
   skyUniforms["mieCoefficient"].value = 0.5;
   skyUniforms["mieDirectionalG"].value = 0.7;
 
