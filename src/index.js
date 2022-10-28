@@ -16,12 +16,6 @@ import { createWelcome } from "./components/welcomePage";
 import { GUI } from "dat.gui";
 import Stats from "three/examples/jsm/libs/stats.module";
 import { MarchingCubes } from "three/examples/jsm/objects/MarchingCubes.js";
-import {
-  ToonShader1,
-  ToonShader2,
-  ToonShaderHatching,
-  ToonShaderDotted,
-} from "three/examples/jsm/shaders/ToonShader.js";
 
 let container, stats;
 let camera, scene, renderer, clock, composer;
@@ -280,69 +274,9 @@ console.log("Textures in Memory", renderer.info.memory.textures);
 console.log("Geometries in Memory", renderer.info.memory.geometries);
 
 function generateMaterials() {
-  // environment map
-
-  const path = "textures/cube/SwedishRoyalCastle/";
-  const format = ".jpg";
-  const urls = [
-    path + "px" + format,
-    path + "nx" + format,
-    path + "py" + format,
-    path + "ny" + format,
-    path + "pz" + format,
-    path + "nz" + format,
-  ];
-
-  const cubeTextureLoader = new THREE.CubeTextureLoader();
-
-  const reflectionCube = cubeTextureLoader.load(urls);
-  const refractionCube = cubeTextureLoader.load(urls);
-  refractionCube.mapping = THREE.CubeRefractionMapping;
-
-  // toons
-
-  const toonMaterial1 = createShaderMaterial(ToonShader1, light, ambientLight);
-  const toonMaterial2 = createShaderMaterial(ToonShader2, light, ambientLight);
-  const hatchingMaterial = createShaderMaterial(
-    ToonShaderHatching,
-    light,
-    ambientLight
-  );
-  const dottedMaterial = createShaderMaterial(
-    ToonShaderDotted,
-    light,
-    ambientLight
-  );
-
-  const texture = new THREE.TextureLoader().load("textures/uv_grid_opengl.jpg");
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-
   const materials = {
-    shiny: new THREE.MeshStandardMaterial({
-      color: 0x550000,
-      envMap: reflectionCube,
-      roughness: 0.1,
-      metalness: 1.0,
-    }),
-    chrome: new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-      envMap: reflectionCube,
-    }),
-    liquid: new THREE.MeshLambertMaterial({
-      color: 0xffffff,
-      envMap: refractionCube,
-      refractionRatio: 0.85,
-    }),
     matte: new THREE.MeshPhongMaterial({ specular: 0x111111, shininess: 1 }),
     flat: new THREE.MeshLambertMaterial({
-      /*TODO flatShading: true */
-    }),
-    textured: new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      specular: 0x111111,
-      shininess: 1,
-      map: texture,
     }),
     colors: new THREE.MeshPhongMaterial({
       color: 0xffffff,
@@ -358,100 +292,30 @@ function generateMaterials() {
       specular: 0x888888,
       shininess: 250,
     }),
-    toon1: toonMaterial1,
-    toon2: toonMaterial2,
-    hatching: hatchingMaterial,
-    dotted: dottedMaterial,
   };
-
   return materials;
 }
 
-function createShaderMaterial(shader, light, ambientLight) {
-  const u = THREE.UniformsUtils.clone(shader.uniforms);
-
-  const vs = shader.vertexShader;
-  const fs = shader.fragmentShader;
-
-  const material = new THREE.ShaderMaterial({
-    uniforms: u,
-    vertexShader: vs,
-    fragmentShader: fs,
-  });
-
-
-
-  material.uniforms["uDirLightPos"].value = (0.5, 0.5, 1);
-  material.uniforms["uDirLightColor"].value = 'white';
-
-  material.uniforms["uAmbientLightColor"].value = 0x080808;
-
-  return material;
-}
-
 function setupGui() {
-  const createHandler = function (id) {
-    return function () {
-      current_material = id;
-
-      effect.material = materials[id];
-      effect.enableUvs = current_material === "textured" ? true : false;
-      effect.enableColors =
-        current_material === "colors" || current_material === "multiColors"
-          ? true
-          : false;
-    };
-  };
-
   effectController = {
-    material: "shiny",
-
+    material: "matte",
     speed: 1.0,
     numBlobs: 10,
     resolution: 28,
     isolation: 80,
-
     floor: true,
     wallx: false,
     wallz: false,
-
-    dummy: function () {},
   };
-
-  let h;
-
-  const gui = new GUI();
-
-  // material (type)
-
-  h = gui.addFolder("Materials");
-
-  for (const m in materials) {
-    effectController[m] = createHandler(m);
-    h.add(effectController, m).name(m);
-  }
-
-  // simulation
-
-  h = gui.addFolder("Simulation");
-
-  h.add(effectController, "speed", 0.1, 8.0, 0.05);
-  h.add(effectController, "numBlobs", 1, 50, 1);
-  h.add(effectController, "resolution", 14, 100, 1);
-  h.add(effectController, "isolation", 10, 300, 1);
-
-  h.add(effectController, "floor");
-  h.add(effectController, "wallx");
-  h.add(effectController, "wallz");
 }
+
 
 // this controls content of marching cubes voxel field
 
 function updateCubes(object, time, numblobs, floor, wallx, wallz) {
   object.reset();
 
-  // fill the field with some metaballs
-
+  //filling the field
   const rainbow = [
     new THREE.Color(0xff0000),
     new THREE.Color(0xff7f00),
