@@ -26,7 +26,6 @@ let effect, resolution;
 let effectController;
 let time = 0;
 
-
 function init() {
   container = document.getElementById("container");
 
@@ -49,8 +48,8 @@ function init() {
 
   // STATS
 
-  stats = new Stats();
-  container.appendChild(stats.dom);
+  // stats = new Stats();
+  // container.appendChild(stats.dom);
   setupGui();
 
   // MATERIALS
@@ -89,8 +88,8 @@ function init() {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   container.appendChild(renderer.domElement);
 
-  //LIGHT 
-  
+  //LIGHT
+
   light = new THREE.DirectionalLight(0xffffff);
   light.position.set(0.5, 0.5, 1);
   scene.add(light);
@@ -228,7 +227,6 @@ function animate(keys) {
     requestAnimationFrame(animate);
   }, 1000 / 500);
   render();
-  stats.update();
 }
 
 //Render
@@ -276,8 +274,7 @@ console.log("Geometries in Memory", renderer.info.memory.geometries);
 function generateMaterials() {
   const materials = {
     matte: new THREE.MeshPhongMaterial({ specular: 0x111111, shininess: 1 }),
-    flat: new THREE.MeshLambertMaterial({
-    }),
+    flat: new THREE.MeshLambertMaterial({}),
     colors: new THREE.MeshPhongMaterial({
       color: 0xffffff,
       specular: 0xffffff,
@@ -309,9 +306,7 @@ function setupGui() {
   };
 }
 
-
 // this controls content of marching cubes voxel field
-
 function updateCubes(object, time, numblobs, floor, wallx, wallz) {
   object.reset();
 
