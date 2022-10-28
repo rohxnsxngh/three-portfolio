@@ -26,7 +26,7 @@ function homePage(scene) {
     "./node_modules/three/examples/fonts/droid/droid_serif_bold.typeface.json",
     (droidFont) => {
       const textGeometryHome = new TextGeometry(
-        "MECHANICAL ENGINEER |\n  SOFTWARE DEVELOPER |",
+        "MECHANICAL ENGINEER\n SOFTWARE DEVELOPER ",
         {
           height: 1,
           size: 4,

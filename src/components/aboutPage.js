@@ -9,7 +9,7 @@ function aboutPage(scene) {
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
       const textGeometryHome = new TextGeometry(
-        "                 EDUCATION | Texas A&M University",
+        "                 EDUCATION: Texas A&M University",
         {
           height: 2,
           size: 8,
@@ -29,7 +29,7 @@ function aboutPage(scene) {
     "./node_modules/three/examples/fonts/droid/droid_serif_regular.typeface.json",
     (droidFont) => {
       const textGeometryHome = new TextGeometry(
-        "                      B.S | Mechanical Engineering & Computer Science",
+        "                      B.S: Mechanical Engineering & Computer Science",
         {
           height: 2,
           size: 6,

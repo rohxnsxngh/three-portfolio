@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -14,11 +13,17 @@ import { createAmbientSound } from "./components/ambientSound";
 import { createKeys } from "./components/controlKeys";
 import { createBackground } from "./components/createBackground";
 import { createWelcome } from "./components/welcomePage";
+// import { MarchingCubes } from "three/examples/jsm/objects/MarchingCubes.js";
+// import { ToonShader1, ToonShader2, ToonShaderHatching, ToonShaderDotted } from 'three/examples/jsm/shaders/ToonShader.js';
 
-let container, stats;
-let camera, scene, renderer, clock;
+let container;
+let camera, scene, renderer, clock, composer;
 let controls, water, upperwater, sun;
-let textMeshHome;
+
+let materials, current_material;
+let light, pointLight, ambientLight;
+let effect, resolution;
+let effectController;
 
 function init() {
   container = document.getElementById("container");
@@ -31,6 +36,7 @@ function init() {
     1,
     20000
   );
+  camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), -Math.PI / 4);
   camera.position.set(-4000, 30, 4000);
 
   //fog
@@ -151,7 +157,7 @@ function init() {
   contactPage(scene);
   createKeys(scene);
   createWelcome(scene);
-  createAmbientSound(camera);
+  // createAmbientSound(camera);
   createBackground(scene); // pretty detailed background seems to require high performance
 
   //First Person Controls
@@ -172,12 +178,15 @@ function init() {
   window.addEventListener("resize", onWindowResize);
 }
 
+
 //Fit to Window
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
 }
+
 
 //Animate
 function animate(keys) {
@@ -185,7 +194,6 @@ function animate(keys) {
     requestAnimationFrame(animate);
   }, 1000 / 500)
   render();
-  // stats.update();
 }
 
 //Render

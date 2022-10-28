@@ -9,7 +9,7 @@ function createWelcome(scene) {
     (droidFont) => {
       const textGeometryHome = new TextGeometry("WELCOME", {
         height: 0.5,
-        size: 3,
+        size: 3.5,
         font: droidFont,
       });
       const textMaterialHome = new THREE.MeshBasicMaterial({ color: 0xffffff });
