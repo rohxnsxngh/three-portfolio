@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { FirstPersonControls } from "three/examples/jsm/controls/FirstPersonControls.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Water } from "three/examples/jsm/objects/Water.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { createCurve } from "./components/curve";
@@ -13,18 +12,25 @@ import { createAmbientSound } from "./components/ambientSound";
 import { createKeys } from "./components/controlKeys";
 import { createBackground } from "./components/createBackground";
 import { createWelcome } from "./components/welcomePage";
-import { GUI } from "dat.gui";
-import Stats from "three/examples/jsm/libs/stats.module";
 import { MarchingCubes } from "three/examples/jsm/objects/MarchingCubes.js";
 
-let container, stats;
+let container;
 let camera, scene, renderer, clock, composer;
 let controls, water, upperwater, sun;
-let light, pointLight, ambientLight;
+let pointLight, ambientLight;
 let materials, current_material;
-let effect, resolution;
+let resolution;
 let effectController;
+let effect,
+  effect_home,
+  effect_edu,
+  effect_about,
+  effect_exp,
+  effect_contact1,
+  effect_contact2;
 let time = 0;
+
+const totalEffects = [effect, effect_home, effect_edu, effect_about, effect_exp, effect_contact1, effect_contact2]
 
 function init() {
   container = document.getElementById("container");
@@ -46,10 +52,6 @@ function init() {
   const far = 1000;
   scene.fog = new THREE.Fog(color, near, far);
 
-  // STATS
-
-  // stats = new Stats();
-  // container.appendChild(stats.dom);
   setupGui();
 
   // MATERIALS
@@ -58,7 +60,6 @@ function init() {
   current_material = "matte";
 
   // MARCHING CUBES
-
   resolution = 28;
 
   effect = new MarchingCubes(
@@ -68,13 +69,96 @@ function init() {
     true,
     100000
   );
-  effect.position.set(-3800, 0, 3800);
-  effect.scale.set(50, 50, 50);
-
+  effect.position.set(-3800, 50, 3800);
+  effect.scale.set(100, 100, 100);
   effect.enableUvs = false;
   effect.enableColors = false;
-
   scene.add(effect);
+
+  //HOME
+
+  effect_home = new MarchingCubes(
+    resolution,
+    materials[current_material],
+    true,
+    true,
+    100000
+  );
+  effect_home.position.set(-3200, 50, 3750);
+  effect_home.scale.set(100, 100, 100);
+  effect_home.enableUvs = false;
+  effect_home.enableColors = false;
+  scene.add(effect_home);
+
+  // ABOUT
+  effect_about = new MarchingCubes(
+    resolution,
+    materials[current_material],
+    true,
+    true,
+    100000
+  );
+  effect_about.position.set(-3500, 0, 2898);
+  effect_about.scale.set(200, 200, 200);
+  effect_about.enableUvs = false;
+  effect_about.enableColors = false;
+  scene.add(effect_about);
+
+  //EXP1
+  effect_exp = new MarchingCubes(
+    resolution,
+    materials[current_material],
+    true,
+    true,
+    100000
+  );
+  effect_exp.position.set(-2600, 0, 2400);
+  effect_exp.scale.set(150, 150, 150);
+  effect_exp.enableUvs = false;
+  effect_exp.enableColors = false;
+  scene.add(effect_exp);
+
+  //EDU
+  effect_edu = new MarchingCubes(
+    resolution,
+    materials[current_material],
+    true,
+    true,
+    100000
+  );
+  effect_edu.position.set(-2600, 0, 3200);
+  effect_edu.scale.set(150, 150, 150);
+  effect_edu.enableUvs = false;
+  effect_edu.enableColors = false;
+  scene.add(effect_edu);
+
+  //CONTACT1
+  effect_contact1 = new MarchingCubes(
+    resolution,
+    materials[current_material],
+    true,
+    true,
+    100000
+  );
+  effect_contact1.position.set(-1975, 0, 1920);
+  effect_contact1.scale.set(25, 25, 25);
+  effect_contact1.enableUvs = false;
+  effect_contact1.enableColors = false;
+  scene.add(effect_contact1);
+
+  //CONTACT2
+  effect_contact2 = new MarchingCubes(
+    resolution,
+    materials[current_material],
+    true,
+    true,
+    100000
+  );
+  effect_contact2.position.set(-1875, 0, 1975);
+  effect_contact2.scale.set(25, 25, 25);
+  effect_contact2.enableUvs = false;
+  effect_contact2.enableColors = false;
+  scene.add(effect_contact2);
 
   // Renderer
   renderer = new THREE.WebGLRenderer({
@@ -89,13 +173,8 @@ function init() {
   container.appendChild(renderer.domElement);
 
   //LIGHT
-
-  light = new THREE.DirectionalLight(0xffffff);
-  light.position.set(0.5, 0.5, 1);
-  scene.add(light);
-
-  pointLight = new THREE.PointLight(0xff3300);
-  pointLight.position.set(0, 0, 100);
+  pointLight = new THREE.PointLight(0xeb4950);
+  pointLight.position.set(-4000, 0, 4100);
   scene.add(pointLight);
 
   ambientLight = new THREE.AmbientLight(0x080808);
@@ -167,7 +246,6 @@ function init() {
   const parameters = {
     elevation: 0,
     azimuth: 135,
-    //135 degrees to match curve
   };
 
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -198,18 +276,20 @@ function init() {
   createKeys(scene);
   createWelcome(scene);
   // createAmbientSound(camera);
-  createBackground(scene); // pretty detailed background seems to require high performance
+  createBackground(scene); // pretty detailed background
 
   //Controls
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxPolarAngle = Math.PI * 0.725;
-  // controls.target.set(0, 10, 0);
-  // controls.minDistance = 40.0;
-  // controls.maxDistance = 200.0;
-
-  //Stats
-  // stats = new Stats();
-  // container.appendChild(stats.dom);
+  //First Person Controls
+  controls = new FirstPersonControls(camera, renderer.domElement);
+  controls.movementSpeed = 300;
+  controls.lookSpeed = 0.125;
+  controls.heightMin = 10;
+  controls.heightCoef = 10;
+  controls.constrainVertical = true;
+  controls.mouseDragOn = false;
+  //controls mouse look around
+  controls.activeLook = true;
+  controls.lookVertical = false;
   window.addEventListener("resize", onWindowResize);
 }
 
@@ -218,7 +298,7 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  composer.setSize(window.innerWidth, window.innerHeight);
+  // composer.setSize(window.innerWidth, window.innerHeight);
 }
 
 //Animate
@@ -258,7 +338,62 @@ function render() {
     effectController.wallx,
     effectController.wallz
   );
-
+  updateCubes(
+    effect_home,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
+  updateCubes(
+    effect_about,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
+  updateCubes(
+    effect_exp,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
+  updateCubes(
+    effect_exp,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
+  updateCubes(
+    effect_edu,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
+  updateCubes(
+    effect_contact1,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
+  updateCubes(
+    effect_contact2,
+    time,
+    effectController.numBlobs,
+    effectController.floor,
+    effectController.wallx,
+    effectController.wallz
+  );
   controls.update(clock.getDelta());
   renderer.render(scene, camera);
 }
@@ -274,20 +409,11 @@ console.log("Geometries in Memory", renderer.info.memory.geometries);
 function generateMaterials() {
   const materials = {
     matte: new THREE.MeshPhongMaterial({ specular: 0x111111, shininess: 1 }),
-    flat: new THREE.MeshLambertMaterial({}),
     colors: new THREE.MeshPhongMaterial({
       color: 0xffffff,
       specular: 0xffffff,
       shininess: 2,
       vertexColors: true,
-    }),
-    multiColors: new THREE.MeshPhongMaterial({
-      shininess: 2,
-      vertexColors: true,
-    }),
-    plastic: new THREE.MeshPhongMaterial({
-      specular: 0x888888,
-      shininess: 250,
     }),
   };
   return materials;
@@ -297,10 +423,10 @@ function setupGui() {
   effectController = {
     material: "matte",
     speed: 1.0,
-    numBlobs: 10,
+    numBlobs: 12,
     resolution: 28,
     isolation: 80,
-    floor: true,
+    floor: false,
     wallx: false,
     wallz: false,
   };
@@ -311,15 +437,6 @@ function updateCubes(object, time, numblobs, floor, wallx, wallz) {
   object.reset();
 
   //filling the field
-  const rainbow = [
-    new THREE.Color(0xff0000),
-    new THREE.Color(0xff7f00),
-    new THREE.Color(0xffff00),
-    new THREE.Color(0x00ff00),
-    new THREE.Color(0x0000ff),
-    new THREE.Color(0x4b0082),
-    new THREE.Color(0x9400d3),
-  ];
   const subtract = 12;
   const strength = 1.2 / ((Math.sqrt(numblobs) - 1) / 4 + 1);
 

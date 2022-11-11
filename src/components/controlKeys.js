@@ -5,9 +5,26 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 function createKeys(scene) {
   //load Keycap W
-  const loaderW = new GLTFLoader();
+  const manager = new THREE.LoadingManager();
+
+  // const progressBar = document.getElementById('progress-bar')
+  const progressBarContainer = document.querySelector('.progress-bar-container')
+
+  manager.onLoad = function () {
+    progressBarContainer.style.display = 'none'
+  };
+
+  manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+    // progressBar.value = itemsLoaded/itemsTotal * 100;
+  };
+
+  // manager.onError = function (url) {
+  //   console.log("There was an error loading " + url);
+  // };
+
+  const loaderW = new GLTFLoader(manager);
   loaderW.load("./KeycapDark/scene.gltf", function (gltf) {
-    const object = gltf.scene
+    const object = gltf.scene;
     const objectW = object.clone();
     objectW.position.set(-3900, -2, 3975);
     objectW.scale.set(5, 5, 5);
