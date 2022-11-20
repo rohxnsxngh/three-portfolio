@@ -30,8 +30,6 @@ let effect,
   effect_contact2;
 let time = 0;
 
-const totalEffects = [effect, effect_home, effect_edu, effect_about, effect_exp, effect_contact1, effect_contact2]
-
 function init() {
   container = document.getElementById("container");
 
@@ -424,7 +422,7 @@ function setupGui() {
     material: "matte",
     speed: 1.0,
     numBlobs: 12,
-    resolution: 28,
+    resolution: 35,
     isolation: 80,
     floor: false,
     wallx: false,
@@ -449,11 +447,7 @@ function updateCubes(object, time, numblobs, floor, wallx, wallz) {
     const ballz =
       Math.cos(i + 1.32 * time * 0.1 * Math.sin(0.92 + 0.53 * i)) * 0.27 + 0.5;
 
-    if (current_material === "multiColors") {
-      object.addBall(ballx, bally, ballz, strength, subtract, rainbow[i % 7]);
-    } else {
-      object.addBall(ballx, bally, ballz, strength, subtract);
-    }
+    object.addBall(ballx, bally, ballz, strength, subtract);
   }
 
   if (floor) object.addPlaneY(2, 12);
