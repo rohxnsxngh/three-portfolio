@@ -275,7 +275,7 @@ function init() {
   contactPage(scene);
   createKeys(scene);
   createWelcome(scene);
-  // createAmbientSound(camera);
+  createAmbientSound(camera);
   createBackground(scene); // pretty detailed background
 
   //Controls
