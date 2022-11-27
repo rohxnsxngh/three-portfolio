@@ -51,6 +51,8 @@ function createBackground(scene) {
   ContactPlane.position.set(-1925, 0, 1920);
   ContactPlane.rotateOnAxis(new THREE.Vector3(0, 1, 0), -Math.PI / 4);
   scene.add(ContactPlane);
+
+  return Plane
 }
 
 export { createBackground };

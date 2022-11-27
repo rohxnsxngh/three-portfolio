@@ -15,7 +15,7 @@ import { createWelcome } from "./components/welcomePage";
 import { MarchingCubes } from "three/examples/jsm/objects/MarchingCubes.js";
 
 let container;
-let camera, scene, renderer, clock, composer;
+let camera, scene, renderer, clock, composer, planeMesh;
 let controls, water, upperwater, sun;
 let pointLight, ambientLight;
 let materials, current_material;
@@ -274,7 +274,8 @@ function init() {
   createKeys(scene);
   createWelcome(scene);
   createAmbientSound(camera);
-  createBackground(scene); // pretty detailed background
+  planeMesh = createBackground(scene); // pretty detailed background
+
 
   //Controls
   //First Person Controls
